@@ -1,0 +1,26 @@
+{
+  "name": "my-components",
+  "private": true,
+  "version": "0.0.1",
+  "files": ["dist"],
+  "main": "./dist/my-components.umd.js",
+  "module": "./dist/my-components.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/my-components.es.js",
+      "require": "./dist/my-components.umd.js"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.2.37"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^3.1.0",
+    "vite": "^3.1.0"
+  }
+}
