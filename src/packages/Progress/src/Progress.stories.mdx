@@ -1,0 +1,45 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import GProgress from './Progress.vue'
+
+<Meta
+    title="Progress"
+    component={ GProgress }
+    argTypes={{
+        type: { 
+            control: 'select',
+            options: [
+                'line', 'circle', 'dashboard'
+            ],
+        },
+        status: { 
+            control: 'select',
+            options: [
+                'success', 'excepetion', 'warning'
+            ],
+        },
+    }}
+    parameters={{}}
+/>
+
+export const Template = (args, { argTypes }) => ({
+    props: Object.keys(argTypes),
+    components: { GProgress },
+    template: `<g-progress v-bind="$props" />`,
+})
+
+# Progress
+
+Assim é o comportamento padrão do G-Progress.
+
+<Canvas>
+    <Story 
+        name="Progress"
+        args={{}}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Progress" />

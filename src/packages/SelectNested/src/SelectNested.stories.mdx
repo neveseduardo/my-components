@@ -1,0 +1,56 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GSelectNested from './SelectNested.vue'
+
+<Meta
+    title="SelectNested"
+    component={ GSelectNested }
+    argTypes={{}}
+    parameters={{}}
+/>
+
+export const Template = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GSelectNested },
+    template: `<g-select-nested v-bind="$props" @input="handleSelect" />`,
+    methods: {
+        handleSelect(value) {
+            updateArgs({ ...args, value })
+        },
+    },
+})
+
+# SelectNested
+
+Assim é o comportamento padrão do G-SelectNested.
+
+Este é um componente que foi recém criado(Utilizado no Market Share) e carece de mais testes.
+
+Seu objetivo inicial é selecionar períodos de tempo, como: Semestres, Trimestres, etc.
+
+<Canvas>
+    <Story 
+        name="SelectNested"
+        args={{
+            input: action('input'),
+            options: [
+                { label: 'Anual', value: 'anual'},
+                {
+                    label: 'Semestral',
+                    childrens: [
+                        { label: 'Semestre 1', value: 'semestre-1' },
+                        { label: 'Semestre 2', value: 'semestre-2' },
+                    ],
+                },
+            ],
+            value: { label: 'Anual', value: 'anual' },
+            placeholder: 'Selecione uma período',
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="SelectNested" />

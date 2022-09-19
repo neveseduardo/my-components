@@ -1,0 +1,53 @@
+import { ArgsTable, Canvas, Meta,Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GAccordion from './Accordion.vue'
+
+<Meta
+    title="Accordion"
+    component={ GAccordion }
+    argTypes={{}}
+    parameters={{}}
+/>
+
+export const Template = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GAccordion },
+    template: `
+        <div class="card" style="min-width: 550px; padding: 20px;">
+            <g-accordion v-bind="filteredProps">
+                /* slots */
+                <template #action>
+                    <span>Slot action</span>
+                </template>
+                <template #body>
+                    <h4>Slot body</h4>
+                </template>
+            </g-accordion>
+        </div>
+    `,
+    computed: {
+        filteredProps() {
+            let { body, action, ...props } = this.$props
+            return props
+        },
+    },
+})
+
+# Accordion
+
+Assim é o comportamento padrão do G-Accordion.
+
+<Canvas>
+    <Story 
+        name="Accordion"
+        args={{
+            title: 'Título do Accordion',
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Accordion" />

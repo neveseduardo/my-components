@@ -1,0 +1,55 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GDatePicker from './DatePicker.vue'
+
+<Meta
+    title="DatePicker"
+    component={ GDatePicker }
+    argTypes={{
+        type: {
+            control: 'select',
+            options: ['date', 'year', 'month', 'range'],
+        },
+    }}
+    parameters={{
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/hlesN40xogvZ32AQKrHw4D/Style-Guide?node-id=8291%3A4249',
+        },
+    }}
+/>
+
+export const Template = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GDatePicker },
+    template: `
+        <g-date-picker 
+            v-bind="$props"
+            @input="handleInput"
+        />
+    `,
+    methods: {
+        handleInput(value) {
+            updateArgs({ ...args, value })
+        },
+    },
+})
+
+# DatePicker
+
+Assim é o comportamento padrão do G-DatePicker.
+
+<Canvas>
+    <Story 
+        name="DatePicker"
+        args={{
+            input: action('input'),
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="DatePicker" />

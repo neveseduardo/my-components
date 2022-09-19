@@ -1,0 +1,59 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GCheckbox from './Checkbox.vue'
+
+<Meta
+    title="Checkbox"
+    component={ GCheckbox }
+    argTypes={{}}
+    parameters={{
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/hlesN40xogvZ32AQKrHw4D/Style-Guide?node-id=8291%3A4249',
+        },
+    }}
+/>
+
+export const Template = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GCheckbox },
+    template: `
+        <g-checkbox 
+            v-bind="filteredProps"
+            @input="handleInput"
+        >
+            {{slotDefault}}
+        </g-checkbox>`,
+    // A computed é p/ remover o slot default dos atributos no html por um bug no StoryBook
+    computed: {
+        filteredProps() {
+            const { slotDefault = null, ...props } = this.$props
+            return props
+        },
+    },
+    methods: {
+        handleInput(value) {
+            updateArgs({ ...args, value })
+        },
+    },
+})
+
+# Checkbox
+
+Assim é o comportamento padrão do G-Checkbox.
+
+<Canvas>
+    <Story 
+        name="Checkbox"
+        args={{
+            slotDefault: `Checkbox`,
+            input: action('input'),
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Checkbox" />

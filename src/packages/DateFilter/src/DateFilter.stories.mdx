@@ -1,0 +1,52 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GDateFilter from './DateFilter.vue'
+
+<Meta
+    title="DateFilter"
+    component={ GDateFilter }
+    argTypes={{}}
+    parameters={{
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/hlesN40xogvZ32AQKrHw4D/Style-Guide?node-id=8291%3A4249',
+        },
+    }}
+/>
+
+export const Template = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GDateFilter },
+    template: `
+        <g-date-filter 
+            v-bind="$props"
+            @input="handleInput"
+        />
+    `,
+    methods: {
+        handleInput(value) {
+            updateArgs({ ...args, value })
+        },
+    },
+})
+
+# DateFilter
+
+Este componente é uma junção de outros dois componentes: Button e DatePicker
+
+Assim é o comportamento padrão do G-DateFilter.
+
+<Canvas>
+    <Story 
+        name="DateFilter"
+        args={{
+            input: action('input'),
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="DateFilter" />

@@ -1,0 +1,213 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GModal from './Modal.vue'
+import GModalDelete from './ModalDelete.vue'
+import GModalDownload from './ModalDownload.vue'
+
+<Meta
+    title="Modal"
+    component={ GModal }
+    argTypes={{}}
+    parameters={{}}
+/>
+
+export const Modal = (args, { argTypes }) => ({
+    props: Object.keys(argTypes),
+    components: { GModal },
+    template: `
+        <div>
+            <g-modal v-bind="$props">
+                {{ $props.name }}
+            </g-modal>
+            <g-button @click="openModal($props.name)">Abrir Modal</g-button>
+        </div>
+    `,
+    methods: {
+        openModal(name, data = {}) {
+            this.$modal.show(name, { data })
+        },
+    }
+})
+
+export const ModalDelete = (args, { argTypes }) => ({
+    props: Object.keys(argTypes),
+    components: { GModalDelete },
+    template: `
+        <div>
+            <g-modal-delete v-bind="$props" />
+            <g-button
+                type="danger"
+                @click="openModal($props.name,  { titulo: 'Alguma coisa', nome: 'Algo' })"
+            >
+                Abrir Modal Delete
+            </g-button>
+        </div>
+    `,
+    methods: {
+        openModal(name, data = {}) {
+            this.$modal.show(name, { data })
+        },
+    }
+})
+
+export const ModalDownload = (args, { argTypes }) => ({
+    props: Object.keys(argTypes),
+    components: { GModalDownload },
+    template: `
+        <div>
+            <g-modal-download v-bind="$props" :feedback="feedbackObj" @download-file="mockDownload" />
+            <g-button type="success" @click="openModal($props.name)">
+                Abrir Modal Download
+            </g-button>
+        </div>
+    `,
+    data() {
+        return {
+            feedbackObj: {},
+        }
+    },
+    methods: {
+        openModal(name, data = {}) {
+            this.$modal.show(name, { data })
+        },
+        mockDownload() {
+            this.feedbackObj = {}
+            setTimeout(() => {
+                this.feedbackObj = {
+                    success: true,
+                    message: 'Download realizado com sucesso',
+                }
+            }, 1000);
+        }
+    }
+})
+
+# Modal
+
+Assim é o comportamento padrão do G-Modal.
+
+<Canvas>
+    <Story 
+        name="Modal"
+        args={{
+            name: 'Modal',
+        }}
+    >
+        { Modal.bind({}) }
+    </Story>
+</Canvas>
+
+Esse componente foi criado com a lib [vue-js-modal](https://euvl.github.io/vue-js-modal/)
+
+Método para abrir o modal: `this.$show.modal(name, { params })`
+
+O segundo parametro `params` é opcional, e é um objeto que será passado para o componente. Útil quando queremos montar um modal dinâmico.
+
+- `name` Indica qual modal será aberto.
+- `Width` Define a largura do modal.
+- `is_processing` Indica estado do modal, se true um loading será exibido. Geralmente usado para requisições.
+- `feedback` Objeto com dados a serem exibidos após uma requisição. Serve tanto para sucesso quanto falha.
+  - `success` Booleano.
+  - `message` String.
+  - `data`(opcional) Array de arrays com as strings de erros.
+- `custom_method_when_opening` Método adicional que será executado quando o modal estiver abrindo. Útil p/ requisições
+- `custom_method_when_closing` Método adicional que será executado quando o modal estiver fechando. P/ limpar feedback
+- `click_to_close` Indica se o modal será fechado quando clicar fora do modal.
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Modal" />
+
+## Modal com feedback de sucesso
+
+<Canvas>
+    <Story 
+        name="ModalSucesso"
+        args={{
+            name: 'ModalSucesso',
+            feedback: {
+                success: true,
+                message: 'Mensagem de sucesso',
+            }
+        }}
+    >
+        { Modal.bind({}) }
+    </Story>
+</Canvas>
+
+## Modal com feedback de falha
+
+A propriedade `data` no objeto `feedback` é opcional e serve para dar detalhes dos possíveis erros.
+
+<Canvas>
+    <Story 
+        name="ModalFalha"
+        args={{
+            name: 'ModalFalha',
+            feedback: {
+                success: false,
+                message: 'Mensagem de Falha',
+                data: [['Erro 1'], ['Erro 2']]
+            }
+        }}
+    >
+        { Modal.bind({}) }
+    </Story>
+</Canvas>
+
+## Modal Delete
+
+Modal ja estilizado p/ fluxo de exclusão de um elemento.
+
+Passar `nome` no objeto `params` do método de abrir o modal p/ exibir o nome do elemento à ser excluído.
+Caso queira um títul diferente de `nome` bastar passar `titulo` no objeto `params`
+
+> O Modal delete emite o evento 'submit-delete' ao clique, passando o objeto `params`.
+
+<Canvas>
+    <Story 
+        name="ModalDelete"
+        args={{
+            name: 'ModalDelete',
+            is_processing: false,
+        }}
+    >
+        { ModalDelete.bind({}) }
+    </Story>
+</Canvas>
+
+## Modal Download
+
+Modal ja estilizado p/ fluxo de download.
+
+> O Modal Download emite o evento 'download-file' ao abrir.
+
+<Canvas>
+    <Story 
+        name="ModalDownload"
+        args={{
+            name: 'ModalDownload',
+        }}
+    >
+        { ModalDownload.bind({}) }
+    </Story>
+</Canvas>
+
+Exemplo que foi utilizado acima:
+
+``` html
+<g-modal-download :feedback="feedback" @download-file="mockDownload" />
+```
+``` js
+    methods: {
+        mockDownload() {
+            this.feedback = {}
+            setTimeout(() => {
+                this.feedback = {
+                    success: true,
+                    message: 'Download realizado com sucesso',
+                }
+            }, 1000);
+        }
+    }
+```

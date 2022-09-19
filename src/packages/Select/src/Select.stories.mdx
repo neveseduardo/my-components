@@ -1,0 +1,46 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GSelect from './Select.vue'
+
+<Meta
+    title="Select"
+    component={ GSelect }
+    argTypes={{}}
+    parameters={{}}
+/>
+
+export const Template = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GSelect },
+    template: `<g-select v-bind="$props" @input="handleSelect" />`,
+    methods: {
+        handleSelect(value) {
+            updateArgs({ ...args, value })
+        },
+    },
+})
+
+# Select
+
+Assim é o comportamento padrão do G-Select.
+
+<Canvas>
+    <Story 
+        name="Select"
+        args={{
+            input: action('input'),
+            options: [
+                { value: '1', label: 'Option 1' },
+                { value: '2', label: 'Option 2' }
+            ],
+            value: '',
+            placeholder: 'Selecione uma opção',
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Select" />

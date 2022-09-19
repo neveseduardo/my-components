@@ -1,0 +1,91 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GLink from './Link.vue'
+
+<Meta
+    title="Link"
+    component={ GLink }
+    argTypes={{
+        type: { 
+            control: 'select',
+            options: ['default', 'primary', 'secondary', 'success', 'warning', 'danger', 'info',],
+        },
+    }}
+    parameters={{}}
+/>
+
+export const Template = (args, { argTypes }) => ({
+    props: Object.keys(argTypes),
+    components: { GLink },
+    template: `
+        <g-link 
+            v-bind="filteredProps" 
+        >
+            {{slotDefault}}
+        </g-link>
+    `,
+    computed: {
+        filteredProps() {
+            const { slotDefault = null, ...props } = this.$props
+            return props
+        },
+    },
+})
+
+# Link
+
+Assim é o comportamento padrão do G-Link.
+
+<Canvas>
+    <Story 
+        name="Link"
+        args={{
+            slotDefault: 'Texto do Link',
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Link" />
+
+## Link com estilo de botão
+É comum nas nossas aplicações ter links com aparencia de botão, dado isso,
+é de suma importancia ter essa possibilidade ao usar o g-link.
+
+Reaproveitando todo o estilo do `g-button`.
+
+<Canvas>
+    <Story 
+        name="LinkButton"
+        args={{
+            slotDefault: 'Texto do Link',
+            is_button: true,
+            href: '#',
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+## Link com estilo de botão apenas com ícone
+Outra possibilidade, é ter apenas o ícone renderizado com a estilização adequada.
+
+É importante adicionar tooltip nestes tipos de links.
+
+<Canvas>
+    <Story 
+        name="LinkButtonIcon"
+        args={{
+            slotDefault: 'Texto do Link',
+            just_icon: true,
+            type: 'secondary',
+            icon: 'home',
+            href: '#',
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>

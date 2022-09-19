@@ -1,0 +1,49 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GPagination from './Pagination.vue'
+
+<Meta
+    title="Pagination"
+    component={GPagination}
+    parameters={{
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/hlesN40xogvZ32AQKrHw4D/Style-Guide?node-id=8281%3A2351',
+        },
+    }}
+/>
+
+export const Template = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GPagination },
+    template: `<g-pagination v-bind="$props" @navigate="navigate($event); changeProps($event)" />`,
+    methods: {
+        changeProps(value) {
+            const temp = { ...args }
+            temp.source = { ...temp.source, ...value }
+            updateArgs({ ...args, ...temp })
+        },
+    },
+})
+
+# Pagination
+Adicione a props source para preencher os dados da paginação com 'total', 'per_page' e 'current_page'. 
+A prop source precisa ter essas 3 propriedades por padrão.
+
+<Canvas>
+    <Story 
+        name="Pagination"
+        args={{
+            source: {
+                total: 1200,
+                per_page: 20,
+                page: 1,
+            },
+            navigate: action('navigate'),
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.

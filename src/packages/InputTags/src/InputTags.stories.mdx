@@ -1,0 +1,159 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GInputTags from './InputTags.vue'
+
+<Meta
+    title="InputTags"
+    component={ GInputTags }
+    argTypes={{}}
+    parameters={{}}
+/>
+
+export const InputTags = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GInputTags },
+    template: `
+        <div>
+            <g-input-tags v-bind="$props" @input="handleInput" />
+            <span style="line-height: 2;">v-model: {{ $props.value }}</span>
+        </div>
+    `,
+    methods: {
+        handleInput(value) {
+            updateArgs({ ...args, value })
+        },
+    },
+})
+
+export const InputTagsValidacao = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GInputTags },
+    template: `
+        <el-form :model="form" :rules="formRules">
+            <el-form-item prop="value">
+                <g-input-tags
+                    :validate="validateEmail"
+                    @input="handleInput"
+                    v-bind="$props"
+                />
+            </el-form-item>
+        </el-form>
+    `,
+    data() {
+        return {
+            form: {
+                value: this.$props.value
+            },
+            formRules: {
+                value: [
+                    {
+                        validator: (rule, value, callback) => {
+                            if (!this.validateEmail(value)) {
+                                callback(new Error('Ao menos um elemento não é um e-mail válido'))
+                            }
+                            callback()
+                        },
+                    },
+                ],
+            },
+        }
+    },
+    methods: {
+        handleInput(value) {
+            updateArgs({ ...args, value })
+        },
+        validateEmail(value) {
+            if (Array.isArray(value))
+                return value.every((email) => this.isEmail(email))
+            return this.isEmail(value)
+        },
+    },
+})
+
+# Input Tags
+
+Assim é o comportamento padrão do G-Input-Tags.
+
+É possivel fazer a entrada com múltiplos valores separados por vírgula(espaços serão ignorados)
+
+`Lorem,ipsum, dolor,  ,sit, amet,`
+
+Copie e cole a string acima no input
+
+<Canvas>
+    <Story 
+        name="InputTags"
+        args={{
+            input: action('input'),
+            placeholder: 'Digite algo e aperte enter, vírgula ou espaço',
+        }}
+    >
+        { InputTags.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="InputTags" />
+
+## Validação
+
+Também é possível validar a entrada de dados com a validação da [Element-UI](https://element.eleme.io/#/en-US/component/form#validation)
+
+No caso abaixo é verificado se a entrada tem e-mails válidos, os que nao forem terão o estilo danger
+
+`  a@a.com,b@b.com, c@a.com , d@d.com,d  `
+
+Copie e cole a string acima no input
+
+<Canvas>
+    <Story 
+        name="InputTagsValidacao"
+        args={{
+            input: action('input'),
+            placeholder: 'E-mails',
+        }}
+    >
+        { InputTagsValidacao.bind({}) }
+    </Story>
+</Canvas>
+
+Código que foi utilizado acima:
+
+```html
+<el-form :model="form" :rules="formRules">
+    <el-form-item prop="emails">
+        <g-input-tags
+            v-model="form.emails"
+            :validate="validateEmail"
+            placeholder="E-mails"
+        />
+    </el-form-item>
+</el-form>
+```
+```js
+data() {
+    const formEmailValidator = {
+        validator: (rule, value, callback) => {
+            if (!this.validateEmail(value))
+                callback(new Error('Ao menos um elemento não é um e-mail válido'))
+            callback()
+        }, 
+    }
+    return {
+        form: {
+            emails: [],
+        },
+        formRules: {
+            emails: [formEmailValidator],
+        },
+    }
+},
+methods: {
+    validateEmail(value) {
+        if (Array.isArray(value))
+            return value.every((email) => this.isEmail(email))
+        return this.isEmail(value)
+    },
+},
+```

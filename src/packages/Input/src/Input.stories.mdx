@@ -1,0 +1,46 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GInput from './Input.vue'
+
+<Meta
+    title="Input"
+    component={ GInput }
+    argTypes={{
+        type: {
+            control: 'select',
+            options: ['text', 'number', 'email', 'search', 'textarea']
+        }
+    }}
+    parameters={{}}
+/>
+
+export const Template = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GInput },
+    template: `<g-input v-bind="$props" @input="handleInput" />`,
+    methods: {
+        handleInput(value) {
+            updateArgs({ ...args, value })
+        },
+    },
+})
+
+# Input
+
+Assim é o comportamento padrão do G-Input.
+
+<Canvas>
+    <Story 
+        name="Input"
+        args={{
+            input: action('input'),
+            placeholder: 'Digite algo',
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Input" />

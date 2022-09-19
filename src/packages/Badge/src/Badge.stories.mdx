@@ -1,0 +1,79 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GBadge from './Badge.vue'
+
+<Meta
+    title="Badge"
+    component={GBadge}
+    argTypes={{
+        type: { 
+            control: 'select',
+            options: [
+                'default', 'primary', 'secondary', 'success', 'warning', 'danger', 'info'
+            ],
+        },
+    }}
+    parameters={{
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/hlesN40xogvZ32AQKrHw4D/Style-Guide?node-id=8291%3A4393',
+        },
+    }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+    props: Object.keys(argTypes),
+    components: { GBadge },
+    template: `
+        <g-badge 
+            v-bind="filteredProps" 
+        >
+            {{slotDefault}}
+        </g-badge>`,
+    // A computed é p/ remover o slot default dos atributos no html por um bug no StoryBook
+    computed: {
+        filteredProps() {
+            const { slotDefault, ...props } = this.$props
+            return props
+        },
+    },
+})
+
+# Badge
+
+Assim é o comportamento padrão do G-Badge.
+<Canvas>
+    <Story 
+        name="Badge"
+        args={{
+            slotDefault: `Badge`,
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Badge" />
+
+
+## Badge como botão
+Por vezes, usamos badges como botão e por tanto é importante que ele tenha o comportamento de clique.
+
+Basta passar a propriedade `is_button` que o componente se comportará como um botão.
+
+> O Badge emite o evento 'click' ao clique, independente da propriedade is_button.
+
+<Canvas>
+    <Story 
+        name="BadgeButton"
+        args={{
+            slotDefault: `Badge`,
+            is_button: true,
+            type: 'primary',
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>

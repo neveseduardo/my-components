@@ -1,0 +1,99 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GAutocomplete from './Autocomplete.vue'
+
+<Meta
+    title="Autocomplete"
+    component={ GAutocomplete }
+    argTypes={{}}
+    parameters={{}}
+/>
+
+
+export const Template = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GAutocomplete },
+    template: `
+        <div style="width: 340px;">
+            <g-autocomplete
+                v-bind="$props"
+                @input="handleInput"
+                :fetch-suggestions="fetch"
+                value-key="label"
+            />
+        </div>
+    `,
+    data() {
+        return {
+            arr: [
+                { label: 'AAAA', value: 'aaaa' },
+                { label: 'BBBB', value: 'bbbb' },
+                { label: 'CCCC', value: 'cccc' },
+            ],
+        }
+    },
+    methods: {
+        handleInput(value) {
+            updateArgs({ ...args, value })
+        },
+        async fetch(queryString, callback) {
+            if (queryString.length >= 2) {
+               setTimeout(() => {
+                    const results = queryString ? this.arr.filter(this.findData(queryString)) : this.arr;
+                    callback(results);
+               }, 1000);
+            }
+        },
+        findData(queryString) {
+            return ({ value }) => value.toLowerCase().includes(queryString.toLowerCase())
+        },
+    },
+})
+
+# Autocomplete
+
+Assim é o comportamento padrão do G-Autocomplete.
+
+**Valores p/ testar: aa, bb, cc**
+
+<Canvas>
+    <Story 
+        name="Autocomplete"
+        args={{
+            input: action('input'),
+            placeholder: 'Digite algo para buscar',
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+Exemplo de uso:
+```html
+<g-autocomplete
+    v-model="input"
+    placeholder= "Digite algo para buscar",
+    :fetch-suggestions="fetchData"
+    value-key="label"
+/>
+```
+Métodos utilizados p/ simular requisição:
+``` js
+methods: {
+    async fetchData(queryString, callback) {
+        if (queryString.length >= 2) {
+            setTimeout(() => {
+                const results = queryString ? this.arr.filter(this.findData(queryString)) : this.arr;
+                callback(results);
+            }, 1000);
+        }
+    },
+    findData(queryString) {
+        return ({ value }) => value.toLowerCase().includes(queryString.toLowerCase())
+    },
+},
+```
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Autocomplete" />

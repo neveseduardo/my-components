@@ -1,0 +1,47 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GIcon from './Icon.vue'
+
+<Meta
+    title="Icon"
+    component={ GIcon }
+    argTypes={{}}
+    parameters={{}}
+/>
+
+export const Template = (args, { argTypes }) => ({
+    props: Object.keys(argTypes),
+    components: { GIcon },
+    template: `
+        <g-icon v-bind="$props" style="font-size: 24px;" />
+    `,
+})
+
+# Icon
+
+Assim é o comportamento padrão do G-Icon.
+
+<Canvas>
+    <Story 
+        name="Icon"
+        args={{
+            name: 'home',
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+O Provedor de ícones padrão é o Material Icons, que é o utilizado pelo time de UX nos protótipos.
+
+Provedores válidos: `mi, fa, el` (Material Icons, Font Awesome, Element UI Icons)
+
+A prop `type` indica o tipo de ícone que será renderizado. Padrão é `outlined`
+
+Exemplos: Material Icons: `filled, outlined, etc.`; Font Awesome: `fa, fas, far`;
+
+Estes ícones são renderizados como texto, por isso, basta estiliza-los como tal no css.
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Icon" />

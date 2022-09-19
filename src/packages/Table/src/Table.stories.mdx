@@ -1,0 +1,217 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import GTable from './Table.vue'
+
+<Meta
+    title="Table"
+    component={ GTable }
+    argTypes={{}}
+    parameters={{
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/hlesN40xogvZ32AQKrHw4D/Style-Guide?node-id=8294%3A6219',
+        },
+    }}
+/>
+
+export const Default = (args, { argTypes }) => ({
+    props: Object.keys(argTypes),
+    components: { GTable },
+    template: `
+        <g-table v-bind="$props" style="min-width: 620px;">
+            <template #card-title-actions>
+                <b>Slot card-title-actions</b>
+            </template>
+            <template #tableList>
+                <tr>
+                    <td><span>Esses elementos estao no <b>Slot tableList</b></span></td>
+                    <td><span>Numero</span></td>
+                    <td><span>Tipo</span></td>
+                    <td class="text-center"><span>Categoria</span></td>
+                    <td><span>Ações</span></td>
+                </tr>
+                <tr>
+                    <td><span>Nome</span></td>
+                    <td><span>Numero</span></td>
+                    <td><span>Tipo</span></td>
+                    <td class="text-center"><span>Categoria</span></td>
+                    <td><span>Ações</span></td>
+                </tr>
+            </template>
+            <template #pagination>
+                <b>Slot pagination</b>	
+            </template>
+        </g-table>
+    `,
+})
+
+export const TableStates = (args, { argTypes }) => ({
+    props: Object.keys(argTypes),
+    components: { GTable },
+    template: `
+        <g-table v-bind="$props" style="min-width: 620px;">
+        </g-table>
+    `,
+})
+
+export const TableCheckbox = (args, { argTypes }) => ({
+    props: Object.keys(argTypes),
+    components: { GTable },
+    template: `
+        <g-table v-bind="$props" style="min-width: 620px;">
+            <template #tableList>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td><span>Nome</span></td>
+                    <td><span>Numero</span></td>
+                    <td><span>Tipo</span></td>
+                    <td class="text-center"><span>Categoria</span></td>
+                    <td><span>Ações</span></td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" /></td>
+                    <td><span>Nome</span></td>
+                    <td><span>Numero</span></td>
+                    <td><span>Tipo</span></td>
+                    <td class="text-center"><span>Categoria</span></td>
+                    <td><span>Ações</span></td>
+                </tr>
+            </template>
+        </g-table>
+    `,
+})
+
+# Table
+
+Assim é o comportamento padrão do G-Table.
+
+<Canvas>
+    <Story
+        name="Table"
+        args={{
+            table_th: [
+                { title: 'Nome', width: '20%' },
+                { title: 'Numero', width: '20%' },
+                { title: 'Tipo', width: '20%' },
+                { title: 'Categoria', width: '20%', class: 'text-center text-danger' },
+                { title: '', width: '20%' },
+            ],
+            data_length: 1,
+            loading_data: false,
+            list_title: 'Listagem de dados',
+        }}
+    >
+        { Default.bind({}) }
+    </Story>
+</Canvas>
+
+## Props
+- `table_th` - Array de objetos, contendo `title`, `width`, `class`, `style` e `checkable`. Apenas a `title` é obrigatória, mas pode ser passada vazia.
+- `data_length` - Booleano, verifica se há dados ou não, se for 0 uma mensagem indicará que nao há dados, acima disso exibirá a listagem
+- `loading_data` - Booleano, estado de loading do componente
+- `list_title` - String, titulo da listagem
+- `show_header` - Booleano, exibe o header do componente (não se trata do header da listagem`, mas do Card)
+- `checked` - Booleano, estado de checked do checkbox de selecionar todos(quando passado no table_th)
+- `update_list_method` - Função, metodo para atualizar a listagem
+
+## Slots
+- `card-title-actions` - Inserir conteúdo no header do componente
+- `tableList` - Inserir conteudo na listagem (`<tr>...</tr>`)
+- `pagination` - Inserir componente de paginação
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Table" />
+
+## Loading
+
+<Canvas>
+    <Story
+        name="TableLoading"
+        args={{
+            table_th: [
+                { title: 'Nome', width: '20%' },
+                { title: 'Numero', width: '20%' },
+                { title: 'Tipo', width: '20%' },
+                { title: 'Categoria', width: '20%', class: 'text-center text-danger' },
+                { title: '', width: '20%' },
+            ],
+            data_length: 1,
+            loading_data: true,
+            list_title: 'Listagem de dados',
+        }}
+    >
+        { TableStates.bind({}) }
+    </Story>
+</Canvas>
+
+## Sem dados
+
+<Canvas>
+    <Story
+        name="TableSemDados"
+        args={{
+            table_th: [
+                { title: 'Nome', width: '20%' },
+                { title: 'Numero', width: '20%' },
+                { title: 'Tipo', width: '20%' },
+                { title: 'Categoria', width: '20%', class: 'text-center text-danger' },
+                { title: '', width: '20%' },
+            ],
+            data_length: 0,
+            loading_data: false,
+            list_title: 'Listagem de dados',
+        }}
+    >
+        { TableStates.bind({}) }
+    </Story>
+</Canvas>
+
+Se passar a prop `update_list_method` e nao houver dados, um botão será exibido para atualizar a listagem.
+
+<Canvas>
+    <Story
+        name="TableSemDadosComBotao"
+        args={{
+            table_th: [
+                { title: 'Nome', width: '20%' },
+                { title: 'Numero', width: '20%' },
+                { title: 'Tipo', width: '20%' },
+                { title: 'Categoria', width: '20%', class: 'text-center text-danger' },
+                { title: '', width: '20%' },
+            ],
+            data_length: 0,
+            loading_data: false,
+            list_title: 'Listagem de dados',
+            update_list_method: () => {},
+        }}
+    >
+        { TableStates.bind({}) }
+    </Story>
+</Canvas>
+
+## Com checkbox
+
+P/ implementação da tabela com esse comportamento é necessário verificar outras implementações já feitas
+
+Por exemplo: Listagem de Carteiras ou Cotas em Fundos/SCOTV2
+
+<Canvas>
+    <Story
+        name="TableCheckbox"
+        args={{
+            table_th: [
+                { title: '', width: '5%', checkable: true  },
+                { title: 'Nome', width: '20%' },
+                { title: 'Numero', width: '20%' },
+                { title: 'Tipo', width: '20%' },
+                { title: 'Categoria', width: '20%', class: 'text-center text-danger' },
+                { title: '', width: '20%' },
+            ],
+            data_length: 1,
+            loading_data: false,
+            list_title: 'Listagem de dados',
+        }}
+    >
+        { TableCheckbox.bind({}) }
+    </Story>
+</Canvas>

@@ -1,0 +1,58 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GRadio from './Radio.vue'
+
+<Meta
+    title="Radio"
+    component={ GRadio }
+    argTypes={{}}
+    parameters={{
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/hlesN40xogvZ32AQKrHw4D/Style-Guide?node-id=8291%3A4218',
+        },
+    }}
+/>
+
+export const Template = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GRadio },
+    template: `
+        <g-radio v-bind="filteredProps" @input="handleInput">
+            {{slotDefault}}
+        </g-radio>
+    `,
+    computed: {
+        filteredProps() {
+            const { slotDefault = null, ...props } = this.$props
+            return props
+        },
+    },
+    methods: {
+        handleInput(value) {
+            updateArgs({ ...args, value })
+        },
+    },
+})
+
+# Radio
+
+Assim é o comportamento padrão do G-Radio.
+
+<Canvas>
+    <Story 
+        name="Radio"
+        args={{
+            slotDefault: 'Texto do Radio',
+            input: action('input'),
+            label: 'valor',
+            value: '',
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Radio" />

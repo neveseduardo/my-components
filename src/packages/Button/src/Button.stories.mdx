@@ -1,0 +1,123 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GButton from './Button.vue'
+
+<Meta
+    title="Button"
+    component={ GButton }
+    argTypes={{
+        type: { 
+            control: 'select',
+            options: [
+                'default', 'primary', 'secondary', 'success', 'warning', 'danger', 'info', 'link'
+            ],
+        },
+    }}
+    parameters={{
+        design: {
+            type: 'figma',
+            url: 'https://www.figma.com/file/hlesN40xogvZ32AQKrHw4D/Style-Guide?node-id=8291%3A4393',
+        },
+    }}
+/>
+
+export const Template = (args, { argTypes }) => ({
+    props: Object.keys(argTypes),
+    components: { GButton },
+    template: `
+        <g-button 
+            v-bind="filteredProps" 
+        >
+            {{slotDefault}}
+        </g-button>`,
+    // A computed é p/ remover o slot default dos atributos no html por um bug no StoryBook
+    computed: {
+        filteredProps() {
+            const { slotDefault = null, ...props } = this.$props
+            return props
+        },
+    },
+})
+
+# Button
+
+Assim é o comportamento padrão do G-Button.
+
+<Canvas>
+    <Story 
+        name="Button"
+        args={{
+            slotDefault: `Button`,
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Button" />
+
+## Ícones
+
+O Botão aceita ícones através da prop `icon`.
+
+O posicionamento também pode ser modificado através da prop `suffix`.
+
+<Canvas>
+    <Story 
+        name="ButtonComIcone"
+        args={{
+            slotDefault: `Ícone como prefixo`,
+            type: 'primary',
+            icon: 'search'
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+    <Story 
+        name="ButtonComIconeSufixo"
+        args={{
+            slotDefault: `Ícone como sufixo`,
+            type: 'success',
+            icon: 'bolt',
+            suffix: true,
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+## Botão exibindo apenas ícone
+
+Há duas props para lidar com esse comportamento: `circle` e `justIcon`
+
+- Com a prop `circle` será renderizado um botão circular com o background do tipo
+
+- Ja a prop `justIcon` o botão fica sem background. Muito utilizado em listagens combinado com tooltip.
+    - Passando o tipo, o ícone e o hover ficarão com o aspecto do tipo.
+
+<Canvas>
+    <Story 
+        name="ButtonApenasIcone1"
+        args={{
+            slotDefault: null,
+            type: 'warning',
+            icon: 'check',
+            circle: true,
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+    <Story 
+        name="ButtonApenasIcone2"
+        args={{
+            slotDefault: null,
+            type: 'danger',
+            icon: 'priority_high',
+            justIcon: true,
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
