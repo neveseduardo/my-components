@@ -1,15 +1,18 @@
 {
   "name": "my-components",
-  "private": true,
   "version": "0.0.1",
-  "main": "dist/my-components.cjs.js",
-  "browser": "dist/my-components.umd.js",
-  "module": "dist/my-components.es.js",
-  "unpkg": "dist/my-components.umd.js",
+  "private": true,
   "files": [
-    "dist/*",
-    "src/**/*.vue"
+    "dist"
   ],
+  "main": "./dist/my-components.umd.js",
+  "module": "./dist/my-components.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/my-components.es.js",
+      "require": "./dist/my-components.umd.js"
+    }
+  },
   "sideEffects": false,
   "scripts": {
     "dev": "vite",
