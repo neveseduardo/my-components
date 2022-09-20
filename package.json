@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "files": ["dist"],
-  "main": "./dist/ot-components.umd.js",
+  "main": "./dist/ot-components.cjs.js",
   "sideEffects": false,
   "scripts": {
     "serve": "vue-cli-service serve dev/main.js",
