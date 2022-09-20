@@ -14,13 +14,11 @@ export { default as Icon } from '@/packages/Icon';
 export { default as Input } from '@/packages/Input';
 export { default as InputTags } from '@/packages/InputTags';
 export { default as Link } from '@/packages/Link';
-export {
-	Modal,
-	ModalDownload,
-	ModalDelete,
-	ModalFail,
-	ModalSuccess,
-} from '@/packages/Modal';
+export { default as Modal } from '@/packages/Modal';
+export { default as ModalDownload } from '@/packages/ModalDownload';
+export { default as ModalDelete } from '@/packages/ModalDelete';
+export { default as ModalFail } from '@/packages/ModalFail';
+export { default as ModalSuccess } from '@/packages/ModalSuccess';
 export { default as Money } from '@/packages/Money';
 export { default as Pagination } from '@/packages/Pagination';
 export { default as Progress } from '@/packages/Progress';

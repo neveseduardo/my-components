@@ -1,4 +1,4 @@
-import Link from './src/Link.vue';
+import Link from './Link.vue';
 Link.install = function(Vue) {
 	Vue.component(Link.name, Link);
 };

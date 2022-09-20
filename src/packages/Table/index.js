@@ -1,4 +1,4 @@
-import Table from './src/Table.vue';
+import Table from './Table.vue';
 Table.install = function(Vue) {
 	Vue.component(Table.name, Table);
 };

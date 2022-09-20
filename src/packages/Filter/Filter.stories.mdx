@@ -1,0 +1,49 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GFilter from './Filter.vue'
+import GInput from '../Input/Input.vue'
+
+<Meta
+    title="Filter"
+    component={ GFilter }
+    argTypes={{}}
+    parameters={{}}
+/>
+
+export const Template = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GFilter, GInput },
+    template: `
+        <g-filter v-bind="$props" @filter-submitted="handleFilter" style="min-width: 810px;">
+            <div class="col-4">
+                <g-input placeholder="Campo 1" />
+            </div>
+            <div class="col-3">
+                <g-input placeholder="Campo 2" />
+            </div>
+            <div class="col-3">
+                <g-input placeholder="Campo 3" />
+            </div>
+        </g-filter>
+    `,
+})
+
+# Filter
+
+Assim é o comportamento padrão do G-Filter.
+> O Filtro emite o evento 'filter-submitted' ao clique no botão de buscar.
+
+> Os campos do filtro usam a grid do bootstrap p/ se ajustarem automaticamente no layout.
+
+<Canvas>
+    <Story 
+        name="Filter"
+        args={{
+            handleFilter: action('filter-submitted'),
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+<ArgsTable story="Filter" />

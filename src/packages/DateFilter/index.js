@@ -1,4 +1,4 @@
-import DateFilter from './src/DateFilter.vue';
+import DateFilter from './DateFilter.vue';
 DateFilter.install = function(Vue) {
 	Vue.component(DateFilter.name, DateFilter);
 };

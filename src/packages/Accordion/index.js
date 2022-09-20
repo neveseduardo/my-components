@@ -1,4 +1,4 @@
-import Accordion from './src/Accordion.vue';
+import Accordion from './Accordion.vue';
 Accordion.install = function(Vue) {
 	Vue.component(Accordion.name, Accordion);
 };

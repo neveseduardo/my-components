@@ -1,0 +1,59 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs'
+import { action } from '@storybook/addon-actions'
+import GHeader from './Header.vue'
+import GLink from '../Link/Link.vue'
+
+<Meta
+    title="Header"
+    component={ GHeader }
+    argTypes={{}}
+    parameters={{}}
+/>
+
+export const Template = (args, { argTypes, updateArgs }) => ({
+    props: Object.keys(argTypes),
+    components: { GHeader, GLink },
+    template: `
+        <g-header v-bind="$props" style="min-width: 700px;">
+            <div>
+                <g-button :small="true">Botão no Slot default</g-button>
+            </div>
+        </g-header>
+    `,
+})
+
+# Header
+
+Assim é o comportamento padrão do G-Header.
+
+<Canvas>
+    <Story 
+        name="Header"
+        args={{
+            title: 'Título do Header',
+            section_name: 'Nome da seção',
+            links: [
+                {
+                    name: 'Link1',
+                    href: '#',
+                    activePage: false,
+                },
+                {
+                    name: 'Link2',
+                    href: '#',
+                    activePage: true,
+                },
+            ],
+        }}
+    >
+        { Template.bind({}) }
+    </Story>
+</Canvas>
+
+A prop `title` pode receber uma string, ou uma função que retorna uma string.
+
+A prop `links` é um array de objetos que espera receber: `name, href e activePage`.
+
+> Modifique as propriedades abaixo, para ver todas as possibilidades de utilização deste componente.
+
+<ArgsTable story="Header" />

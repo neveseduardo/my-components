@@ -1,4 +1,4 @@
-import Progress from './src/Progress.vue';
+import Progress from './Progress.vue';
 Progress.install = function(Vue) {
 	Vue.component(Progress.name, Progress);
 };

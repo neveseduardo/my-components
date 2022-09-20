@@ -1,4 +1,4 @@
-import Tooltip from './src/Tooltip.vue';
+import Tooltip from './Tooltip.vue';
 Tooltip.install = function(Vue) {
 	Vue.component(Tooltip.name, Tooltip);
 };

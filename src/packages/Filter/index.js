@@ -1,4 +1,4 @@
-import Filter from './src/Filter.vue';
+import Filter from './Filter.vue';
 Filter.install = function(Vue) {
 	Vue.component(Filter.name, Filter);
 };

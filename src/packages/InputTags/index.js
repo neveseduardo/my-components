@@ -1,4 +1,4 @@
-import InputTags from './src/InputTags.vue';
+import InputTags from './InputTags.vue';
 InputTags.install = function(Vue) {
 	Vue.component(InputTags.name, InputTags);
 };
