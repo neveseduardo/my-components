@@ -6,7 +6,7 @@ import { mask } from 'vue-the-mask';
 import * as packages from '@/packages';
 
 export * from './packages';
-export default {
+export const Plugin = {
 	install: (Vue) => {
 		Vue.directive('mask', (el, binding) => {
 			if (!binding.value) return;
